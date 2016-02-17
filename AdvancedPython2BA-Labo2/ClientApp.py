@@ -73,13 +73,16 @@ class ClientApp():
                 return
 
 
-Chat = ClientApp()
-Chat.run()
-
-"""
 s = socket.socket()
 SERVERADDRESS = (socket.gethostname(), 6000)
 s.connect(SERVERADDRESS)
-data = sys.stdin.readline().rstrip()
-s.send(data.encode())
-"""
+while(1):
+    data = sys.stdin.readline().rstrip()
+    s.send(data.encode())
+    data = sys.stdin.readline().rstrip()
+    s.send(data.encode())
+    data = s.recv(1024).decode()
+    while(data != None):
+        print(data)
+        data = s.recv(1024).decode()
+    
