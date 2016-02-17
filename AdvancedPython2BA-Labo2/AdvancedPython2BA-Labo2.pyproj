@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6bdcf9ed-1109-48d3-95c0-f229bd295854</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>AdvancedPython2BA_Labo2.py</StartupFile>
+    <StartupFile>ClientApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +22,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AdvancedPython2BA_Labo2.py" />
+    <Compile Include="ClientApp.py" />
+    <Compile Include="Examples\adder.py" />
+    <Compile Include="Examples\chat.py" />
+    <Compile Include="Examples\echo.py" />
+    <Compile Include="Examples\lib\mathutil.py" />
+    <Compile Include="Examples\lib\test_mathutil.py" />
+    <Compile Include="Examples\lib\__init__.py" />
+    <Compile Include="ServerApp.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Examples\" />
+    <Folder Include="Examples\lib\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
