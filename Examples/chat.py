@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+# chat.py
+# author: Sébastien Combéfis
+# version: February 15, 2016
+
 import socket
 import sys
 import threading
 
-class ClientApp():
-    def __init__(self, host=socket.gethostname(), port=5001):
+class Chat():
+    def __init__(self, host=socket.gethostname(), port=5000):
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
         s.bind((host, port))
@@ -49,7 +54,7 @@ class ClientApp():
                 self.__address = (socket.gethostbyaddr(tokens[0])[0], int(tokens[1]))
                 print('Connecté à {}:{}'.format(*self.__address))
             except OSError:
-                print("Erreur lors de la connexion")
+                print("Erreur lors de l'envoi du message.")
     
     def _send(self, param):
         if self.__address is not None:
@@ -59,8 +64,8 @@ class ClientApp():
                 while totalsent < len(message):
                     sent = self.__s.sendto(message[totalsent:], self.__address)
                     totalsent += sent
-            except OSError as error:
-                print("Erreur lors de l'envoi du message. {}".format(error))
+            except OSError:
+                print('Erreur lors de la réception du message.')
     
     def _receive(self):
         while self.__running:
@@ -72,14 +77,8 @@ class ClientApp():
             except OSError:
                 return
 
-
-Chat = ClientApp()
-Chat.run()
-
-"""
-s = socket.socket()
-SERVERADDRESS = (socket.gethostname(), 6000)
-s.connect(SERVERADDRESS)
-data = sys.stdin.readline().rstrip()
-s.send(data.encode())
-"""
+if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        Chat(sys.argv[1], int(sys.argv[2])).run()
+    else:
+        Chat().run()
