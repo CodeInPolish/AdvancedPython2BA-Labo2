@@ -1,21 +1,26 @@
+#!/usr/bin/env python3
+# chat.py
+# author: Hadrien Hachez
+# version: February 16, 2016
 import socket
 import sys
 import threading
+import time
 
 class Chat():
-    def __init__(self, host=socket.gethostname(), port=5001): 
+    
+    def __init__(self, host=socket.gethostname(), port=6000):
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
         s.bind((host, port))
         self.__s = s
         print('Écoute sur {}:{}'.format(host, port))
-    
+
     def run(self):
         handlers = {
             '/exit': self._exit,
             '/quit': self._quit,
-            '/join': self._join,
-            '/send': self._send
+            '/join': self._join
         }
         self.__running = True
         self.__address = None
@@ -32,16 +37,16 @@ class Chat():
                 except:
                     print("Erreur lors de l'exécution de la commande.")
             else:
-                print('Command inconnue:', command)
-    
+                self._send(command+' '+param)
+
     def _exit(self):
         self.__running = False
         self.__address = None
         self.__s.close()
-    
+
     def _quit(self):
         self.__address = None
-    
+
     def _join(self, param):
         tokens = param.split(' ')
         if len(tokens) == 2:
@@ -49,8 +54,8 @@ class Chat():
                 self.__address = (socket.gethostbyaddr(tokens[0])[0], int(tokens[1]))
                 print('Connecté à {}:{}'.format(*self.__address))
             except OSError:
-                print("Erreur lors de la connexion")
-    
+                print("Erreur lors de l'envoi du message.")
+
     def _send(self, param):
         if self.__address is not None:
             try:
@@ -59,44 +64,21 @@ class Chat():
                 while totalsent < len(message):
                     sent = self.__s.sendto(message[totalsent:], self.__address)
                     totalsent += sent
-            except OSError as error:
-                print("Erreur lors de l'envoi du message. {}".format(error))
-    
+            except OSError:
+                print('Erreur lors de la réception du message.')
+
     def _receive(self):
         while self.__running:
             try:
                 data, address = self.__s.recvfrom(1024)
-                print(data.decode())
+                print(address[0]+' ({}:{}): '.format(time.localtime()[3],time.localtime()[4]) + data.decode())
             except socket.timeout:
                 pass
             except OSError:
                 return
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         Chat(sys.argv[1], int(sys.argv[2])).run()
     else:
         Chat().run()
-=======
-
-s = socket.socket()
-SERVERADDRESS = (socket.gethostname(), 6000)
-s.connect(SERVERADDRESS)
-<<<<<<< HEAD
-while(1):
-    data = sys.stdin.readline().rstrip()
-    s.send(data.encode())
-    data = sys.stdin.readline().rstrip()
-    s.send(data.encode())
-    data = s.recv(1024).decode()
-    while(data != None):
-        print(data)
-        data = s.recv(1024).decode()
-    
-=======
-data = sys.stdin.readline().rstrip()
-s.send(data.encode())
-"""
->>>>>>> 36d2a0533be5961f1493ff76a130ac946f22ebf5
->>>>>>> b6ce91894ac10acfe419289f1c79786a3a898047
