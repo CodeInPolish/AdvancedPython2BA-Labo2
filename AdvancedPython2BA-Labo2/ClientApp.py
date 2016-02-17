@@ -2,14 +2,14 @@ import socket
 import sys
 import threading
 
-class ClientApp():
-    def __init__(self, host=socket.gethostname(), port=5001):
+class Chat():
+    def __init__(self, host=socket.gethostname(), port=5001): 
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
         s.bind((host, port))
         self.__s = s
         print('Écoute sur {}:{}'.format(host, port))
-        
+    
     def run(self):
         handlers = {
             '/exit': self._exit,
@@ -72,10 +72,8 @@ class ClientApp():
             except OSError:
                 return
 
-s = socket.socket(type=socket.SOCK_DGRAM)
-address = ("localhost", 5000)
-message = sys.stdin.readline().rstrip().encode()
-totalsent = 0
-while totalsent < len(message):
-    sent = s.sendto(message[totalsent:], address)
-    totalsent += sent
+if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        Chat(sys.argv[1], int(sys.argv[2])).run()
+    else:
+        Chat().run()
