@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6bdcf9ed-1109-48d3-95c0-f229bd295854</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ClientApp.py</StartupFile>
+    <StartupFile>ServerApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="chat.py" />
     <Compile Include="ClientApp.py" />
     <Compile Include="Examples\adder.py" />
     <Compile Include="Examples\chat.py" />

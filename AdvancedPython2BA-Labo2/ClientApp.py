@@ -1,102 +1,48 @@
 import socket
 import sys
 import threading
+import pickle
 
 class Chat():
-    def __init__(self, host=socket.gethostname(), port=5001): 
-        s = socket.socket(type=socket.SOCK_DGRAM)
-        s.settimeout(0.5)
-        s.bind((host, port))
-        self.__s = s
-        print('Écoute sur {}:{}'.format(host, port))
+    def __init__(self, host=socket.gethostbyname("DESKTOP-UPJ8DL0"), port=5001):
+        self.__s = socket.socket()
+        self.__server = (host, port)
+        self.__pseudo = ""
+        print('Écoute sur {}:{}'.format(socket.gethostbyname(socket.gethostname), port))
     
     def run(self):
-        handlers = {
-            '/exit': self._exit,
-            '/quit': self._quit,
-            '/join': self._join,
-            '/send': self._send
-        }
-        self.__running = True
-        self.__address = None
         threading.Thread(target=self._receive).start()
-        while self.__running:
-            line = sys.stdin.readline().rstrip() + ' '
-            # Extract the command and the param
-            command = line[:line.index(' ')]
-            param = line[line.index(' ')+1:].rstrip()
-            # Call the command handler
-            if command in handlers:
-                try:
-                    handlers[command]() if param == '' else handlers[command](param)
-                except:
-                    print("Erreur lors de l'exécution de la commande.")
-            else:
-                print('Command inconnue:', command)
+
+    def GetPseudo(self):
+        sys.stdout.write("Entrez votre pseudo: ")
+        sys.stdout.flush()
+        data = sys.stdin.readline().rstrip()
     
     def _exit(self):
-        self.__running = False
-        self.__address = None
-        self.__s.close()
+        #commande à envoyer au serveur pour quitter l'appli chat
+        pass
     
     def _quit(self):
-        self.__address = None
-    
-    def _join(self, param):
-        tokens = param.split(' ')
-        if len(tokens) == 2:
-            try:
-                self.__address = (socket.gethostbyaddr(tokens[0])[0], int(tokens[1]))
-                print('Connecté à {}:{}'.format(*self.__address))
-            except OSError:
-                print("Erreur lors de la connexion")
+        #on verra
+        pass
     
     def _send(self, param):
-        if self.__address is not None:
-            try:
-                message = param.encode()
-                totalsent = 0
-                while totalsent < len(message):
-                    sent = self.__s.sendto(message[totalsent:], self.__address)
-                    totalsent += sent
-            except OSError as error:
-                print("Erreur lors de l'envoi du message. {}".format(error))
+        #à réecrire
+        pass
     
     def _receive(self):
         while self.__running:
             try:
-                data, address = self.__s.recvfrom(1024)
+                data = self.__s.recv(1024)
                 print(data.decode())
             except socket.timeout:
                 pass
             except OSError:
                 return
-
-<<<<<<< HEAD
+"""
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         Chat(sys.argv[1], int(sys.argv[2])).run()
     else:
         Chat().run()
-=======
-
-s = socket.socket()
-SERVERADDRESS = (socket.gethostname(), 6000)
-s.connect(SERVERADDRESS)
-<<<<<<< HEAD
-while(1):
-    data = sys.stdin.readline().rstrip()
-    s.send(data.encode())
-    data = sys.stdin.readline().rstrip()
-    s.send(data.encode())
-    data = s.recv(1024).decode()
-    while(data != None):
-        print(data)
-        data = s.recv(1024).decode()
-    
-=======
-data = sys.stdin.readline().rstrip()
-s.send(data.encode())
 """
->>>>>>> 36d2a0533be5961f1493ff76a130ac946f22ebf5
->>>>>>> b6ce91894ac10acfe419289f1c79786a3a898047

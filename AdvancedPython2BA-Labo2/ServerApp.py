@@ -1,5 +1,6 @@
 import socket
 import time 
+import pickle
 
 SERVERADDRESS = (socket.gethostname(), 6000)
 
@@ -15,14 +16,10 @@ class EchoServer():
             client, addr = self.__s.accept()
             try:
                 data = self._receive(client)
-                self.__connectedclients[data] = addr[0]                
+                self.__connectedclients[data] = addr[0]
+                client.send("Connected".encode())
                 while(1):
-                    data = self._receive(client)
-                    if (data == "/list"):
-                        list = []
-                        for pseudo, ip in self.__connectedclients.items():
-                            list.append("Pseudo: '{}', IP: '{}' \n".format(pseudo, ip))
-                        client.send("".join(list).encode())
+                    pass
 
             except OSError:
                 print('Erreur lors de la réception du message.')
