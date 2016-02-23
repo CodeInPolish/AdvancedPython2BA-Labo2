@@ -6,17 +6,21 @@ import pickle
 class Chat():
     def __init__(self, host=socket.gethostbyname("DESKTOP-UPJ8DL0"), port=5001):
         self.__s = socket.socket()
+        self.__running = True
         self.__server = (host, port)
         self.__pseudo = ""
-        print('Écoute sur {}:{}'.format(socket.gethostbyname(socket.gethostname), port))
+        print('Écoute sur {}:{}'.format(host, port))
+        self.__s.connect(self.__server)
     
     def run(self):
         threading.Thread(target=self._receive).start()
+        self.__s.send(self.GetPseudo())
 
     def GetPseudo(self):
         sys.stdout.write("Entrez votre pseudo: ")
         sys.stdout.flush()
         data = sys.stdin.readline().rstrip()
+        return ("C2S;" + data).encode()
     
     def _exit(self):
         #commande à envoyer au serveur pour quitter l'appli chat
@@ -39,10 +43,9 @@ class Chat():
                 pass
             except OSError:
                 return
-"""
+
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         Chat(sys.argv[1], int(sys.argv[2])).run()
     else:
         Chat().run()
-"""
