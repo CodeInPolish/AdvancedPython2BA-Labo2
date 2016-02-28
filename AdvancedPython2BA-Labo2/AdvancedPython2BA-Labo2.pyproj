@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6bdcf9ed-1109-48d3-95c0-f229bd295854</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ServerApp.py</StartupFile>
+    <StartupFile>ClientApp.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,6 +31,9 @@
     <Compile Include="Examples\lib\test_mathutil.py" />
     <Compile Include="Examples\lib\__init__.py" />
     <Compile Include="ServerApp.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

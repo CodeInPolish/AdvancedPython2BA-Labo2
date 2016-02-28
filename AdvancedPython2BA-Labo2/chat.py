@@ -9,21 +9,21 @@ import time
 
 class Chat():
     
-    def __init__(self, host=socket.gethostname(), port=6000):
+    def __init__(self, client, port=6001, port_c=6002):
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
-        s.bind((host, port))
+        s.bind((socket.gethostname(), port))
         self.__s = s
-        print('Écoute sur {}:{}'.format(host, port))
+        self.__address = (client, port_c)
+        print('Écoute sur {}:{}'.format(socket.gethostname(), port))
 
     def run(self):
         handlers = {
             '/exit': self._exit,
-            '/quit': self._quit,
-            '/join': self._join
+            '/quit': self._quit
         }
+
         self.__running = True
-        self.__address = None
         threading.Thread(target=self._receive).start()
         while self.__running:
             line = sys.stdin.readline().rstrip() + ' '
@@ -47,15 +47,6 @@ class Chat():
     def _quit(self):
         self.__address = None
 
-    def _join(self, param):
-        tokens = param.split(' ')
-        if len(tokens) == 2:
-            try:
-                self.__address = (tokens[0], int(tokens[1]))
-                print('Connecté à {}:{}'.format(*self.__address))
-            except OSError:
-                print("Erreur lors de l'envoi du message.")
-
     def _send(self, param):
         if self.__address is not None:
             try:
@@ -78,7 +69,7 @@ class Chat():
                 return
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
-        Chat(sys.argv[1], int(sys.argv[2])).run()
+    if len(sys.argv) == 4:
+        Chat(sys.argv[1], int(sys.argv[2]), int(sys.argv[3])).run()
     else:
         Chat().run()
