@@ -9,10 +9,12 @@ import time
 
 class Chat():
     
-    def __init__(self, client, port=6001, port_c=6002):
+    def __init__(self, client, pseudo_c, pseudo, port=6001, port_c=6002):
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
         s.bind((socket.gethostname(), port))
+        self.mypseudo = pseudo
+        self.otherpseudo = pseudo_c
         self.__s = s
         self.__address = (client, port_c)
         print('Écoute sur {}:{}'.format(socket.gethostname(), port))
@@ -62,14 +64,15 @@ class Chat():
         while self.__running:
             try:
                 data, address = self.__s.recvfrom(1024)
-                print(address[0]+' ({}:{:0>2}): '.format(time.localtime()[3],time.localtime()[4]) + data.decode())
+                print("\n     -> " + self.otherpseudo 
+                      +' ({}:{:0>2}): '.format(time.localtime()[3],time.localtime()[4]) + data.decode())
             except socket.timeout:
                 pass
             except OSError:
                 return
 
 if __name__ == '__main__':
-    if len(sys.argv) == 4:
-        Chat(sys.argv[1], int(sys.argv[2]), int(sys.argv[3])).run()
+    if len(sys.argv) == 6:
+        Chat(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5])).run()
     else:
         Chat().run()
