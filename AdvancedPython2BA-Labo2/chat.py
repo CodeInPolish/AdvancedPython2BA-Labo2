@@ -6,10 +6,12 @@ import socket
 import sys
 import threading
 import time
+import os
 
 class Chat():
     
     def __init__(self, client, pseudo_c, pseudo, port=6001, port_c=6002):
+        os.system("color f1")
         s = socket.socket(type=socket.SOCK_DGRAM)
         s.settimeout(0.5)
         s.bind((socket.gethostname(), port))
