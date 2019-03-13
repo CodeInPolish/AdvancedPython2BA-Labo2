@@ -14,7 +14,9 @@ Add Python to your path variable
 ```python ClientApp.py server_name server_port pseudo```
 
 server_name: name of the machine that serves as a server (Ex: "DESKTOP-UPJ8DL0")
+
 server_port: port du serveur (default: 5001)
+
 pseudo: your pseudo (optionnal)
 
 - If your didn't put a pseudo in the command when launching a client server, you will need to do it nowµ
