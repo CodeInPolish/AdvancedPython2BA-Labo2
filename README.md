@@ -1,31 +1,38 @@
-# AdvancedPython2BA-Labo2
+# Messaging console application
+An intranet messaging application for a Python Course at ECAM
 
-/!\ Windows : il faut obligatoirement avoir Python dans ses variables d'environnement
+## How to setup
 
-Lancer ServerApp.py sur une machine qui servira de serveur 
+### Windows 
+Add Python to your path variable
+
+### Linux
+> Launch ServerApp.py on a machine that will serve as a server
+
+> Launch ClientApp.py on a machine that will be a client with the command
+
+```python ClientApp.py server_name server_port pseudo```
+
+server_name: name of the machine that serves as a server (Ex: "DESKTOP-UPJ8DL0")
+server_port: port du serveur (default: 5001)
+pseudo: your pseudo (optionnal)
+
+> If your didn't put a pseudo in the command when launching a client server, you will need to do it nowÂµ
+
+> Your are now connected to the server and can talk to other online users
+
+## Commands
+### List of commands in  ClientApp.py
+> /users : list of connected clients
+> /join user : ask to open a session with a user (must be online)
+> /accept user : accept request from a user to open a session (a new window will open)
+> /exit : exit the application and disconnect from the server
+
+### List of commands in chat
+> /exit : closes the chat
 
 
-Lancer ClientApp.py sur la machine qui veut se connecter au Chat avec la commande
+## What is missing
+> Port P2P is not random (hardcoded for test purposes)
 
-"python ClientApp.py server_name server_port pseudo"
-
-server_name = nom de la machine sur laquelle le serveur est hebergé (Ex: "DESKTOP-UPJ8DL0" chez moi)
-server_port = port du serveur (5001 par défaut)
-pseudo = votre pseudo (optionnel)
-
-
-Mettre son pseudo
-
-Commandes dans ClientApp.py:
-	/users : liste les clients connectés
-	/join user : Demander à user une connexion chat
-	/accept user : Accepte la requête de demande de connexion chat avec user (une nouvelle fenêtre chat va s'ouvrir)
-	/exit : Ferme la connexion entre le client et le serveur pour quitter l'appli
-
-Commandes dans chat:
-	/exit : Ferme le chat
-
-
-Il manque encore plein de trucs : 
-	- Le port P2P n'est pas random (il est hardcoded pour effectuer les test)
-	- Pas de gestion d'erreur
+> No error handling
